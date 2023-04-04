@@ -2,10 +2,10 @@ p "Where are you located?"
 
 # user_location = gets.chomp
 
-user_location = "Taj Mahal"
+user_location = "Chicago"
 
-pmaps_token = AIzaSyB92cYxPcYqgjwBJfWlwDQw_7yjuyU3tpA
-weather_key = 3RrQrvLmiUayQ84JSxL8D2aXw99yRKlx1N4qFDUE
+pmaps_token = "AIzaSyB92cYxPcYqgjwBJfWlwDQw_7yjuyU3tpA"
+weather_key = "3RrQrvLmiUayQ84JSxL8D2aXw99yRKlx1N4qFDUE"
 
 p user_location
 
@@ -58,19 +58,23 @@ hourly_hash = parsed_weather_response.fetch("hourly")
 
 hourly_data_array = hourly_hash.fetch("data")
 
-# p hourly_data_array
-
-next_twelve_hours = hourly_data_array[1...12]
+next_twelve_hours = hourly_data_array[1..12]
 
 precip_prob_threshold = 0.10
 
+
 next_twelve_hours.each do |hour_hash|
-  precip_prob = hour_hash.fetch(precipProbability)
 
-if precip_prob > precip_prob_threshold
+  precip_prob = hour_hash.fetch("precipProbability")
 
-  any_precipitation = true
+  if precip_prob > precip_prob_threshold
 
-  precip_time = Time.at(hour_hash.fetch("Time"))
+    precip_time = Time.at(hour_hash.fetch("time"))
 
-  
+    seconds_from_now = precip_time - Time.now
+
+    hours_from_now = seconds_from_now / 60 / 60
+
+    p "In #{hours_from_now.round} hours, there is a #{(precip_prob * 100).round}% chance of precipitation."
+  end
+end
