@@ -58,23 +58,22 @@ hourly_hash = parsed_weather_response.fetch("hourly")
 
 hourly_data_array = hourly_hash.fetch("data")
 
-next_twelve_hours = hourly_data_array[1..12]
-
 precip_prob_threshold = 0.10
 
+hourly_precip = hourly_data_array [1..12]
 
-next_twelve_hours.each do |hour_hash|
-
+hourly_precip.each do |hour_hash|
+ 
   precip_prob = hour_hash.fetch("precipProbability")
 
-  if precip_prob > precip_prob_threshold
+if precip_prob > precip_prob_threshold
+  precip_time = Time.at(hour_hash.fetch("time"))
 
-    precip_time = Time.at(hour_hash.fetch("time"))
+  seconds_from_now = precip_time - Time.now 
 
-    seconds_from_now = precip_time - Time.now
+  hours_from_now = seconds_from_now / 3600
 
-    hours_from_now = seconds_from_now / 60 / 60
-
-    p "In #{hours_from_now.round} hours, there is a #{(precip_prob * 100).round}% chance of precipitation."
-  end
+  p "In #{hours_from_now.round} hours, there is a #{(precip_prob * 100).round}% chance of precipitation."
+  end 
 end
+ 
