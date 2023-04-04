@@ -73,4 +73,4 @@ if precip_prob > precip_prob_threshold
 
   precip_time = Time.at(hour_hash.fetch("Time"))
 
-
+  
